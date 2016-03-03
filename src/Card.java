@@ -16,6 +16,11 @@ public class Card {
         value = 1;
     }
 
+    public Card(int value, int suit) {
+        this.value = value;
+        this.suit = suit;
+    }
+
     public String getSuitAsString(){
         switch (suit) {
             case SPADES: return "Spades";
