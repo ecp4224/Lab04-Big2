@@ -3,7 +3,23 @@
  */
 public class Hand {
 
+    private int numOfCards;
+    private List<Card> cards;
+
     public Hand() {
 
+    }
+
+    public List<Card> getHand(){
+        return cards;
+    }
+
+    public boolean addCardToHand(Card newCard){
+        numOfCards++;
+        return cards.add(newCard);
+    }
+
+    public boolean removeCardFromHand(Card cardToBeRemoved){
+        return cards.remove(cardToBeRemoved);
     }
 }
