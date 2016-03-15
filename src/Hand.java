@@ -22,4 +22,15 @@ public class Hand {
     public boolean removeCardFromHand(Card cardToBeRemoved){
         return cards.remove(cardToBeRemoved);
     }
+
+    public int getNumOfCards(){
+        return numOfCards;
+    }
+
+    public void printHand(){
+        for(int i = 0; i <= cards.getCurrentSize(); i++){
+            System.out.println(cards.getEntry(i));
+        }
+    }
+
 }

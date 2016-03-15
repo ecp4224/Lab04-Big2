@@ -8,9 +8,10 @@ public class Player {
     private boolean myTurn = false;
     private boolean justPlayedACard = false;
     private int position;
+    private int score;
 
     public Player(){
-
+        score = 0;
     }
 
     public Hand getHand(){
@@ -28,4 +29,10 @@ public class Player {
     public int getPosition(){
         return position;
     }
+
+    public void setScore(int score){
+        this.score = score;
+    }
+
+
 }

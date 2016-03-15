@@ -16,16 +16,19 @@ public class Game {
             players[p] = new Player();
 
             for(int i = 0; i < 13; i++){
-
                 players[p].getHand().addCardToHand(theDeck.dealCard());
-
             }
         }
 
+        //print hands of players
+        for(Player p : players){
+            System.out.println("Player " + (p.getPosition()+1) + " card's: ");
+            p.getHand().printHand();
+        }
+        System.out.println();
 
         //simulates game process, going through turns
         while(whoseTurn.getHand() != null){
-
             if(whoseTurn.hasJustPlayedCard()){
                 if(whoseTurn.getPosition() == 3){
                     whoseTurn = players[0];
@@ -34,10 +37,7 @@ public class Game {
                     whoseTurn = players[whoseTurn.getPosition() + 1];
                 }
             }
-
-
         }
-
 
     }
 
@@ -63,7 +63,6 @@ public class Game {
             if (cards.getEntry(i).getBig2Value() != lastValue)
                 return false;
         }
-
         return true;
     }
 
@@ -79,5 +78,26 @@ public class Game {
         }
 
         return true;
+    }
+
+
+    //going by this scoring https://en.wikipedia.org/wiki/Big_Two#Scoring
+    private void setScoring(Player[] players){
+        int negativeScore = 0;
+        for(Player p : players){
+            int countCards = p.getHand().getNumOfCards();
+            if(countCards == 13){
+                p.setScore(13*(-3));
+                negativeScore += (13*3);
+            } else if(countCards >= 10){
+                p.setScore(countCards * (-2));
+                negativeScore += (countCards*2);
+            } else if (countCards > 0){
+                p.setScore(countCards * (-1));
+                negativeScore += countCards;
+            } else {
+                p.setScore(negativeScore);
+            }
+        }
     }
 }

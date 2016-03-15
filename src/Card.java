@@ -234,12 +234,14 @@ public final class Card implements Comparable<Card>, Cloneable {
     }
 
     public enum Suit {
+
         HEARTS(4),
         DIAMONDS(3),
         CLUBS(2),
         SPADES(1);
 
         int value;
+
         Suit(int value) {
             this.value = value;
         }
