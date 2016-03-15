@@ -39,6 +39,8 @@ public interface ListInterface<T>
      *          givenPosition > getLength() */
     public T remove(int givenPosition);
 
+    public boolean remove(T newEntry);
+
     /** Task: Removes all entries from the list. */
     public void clear();
 
