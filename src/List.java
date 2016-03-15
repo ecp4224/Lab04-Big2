@@ -16,6 +16,12 @@ public class List<T> implements ListInterface<T>{
         }
     }
 
+    public List(T[] items) {
+        for (T item : items) {
+            add(item);
+        }
+    }
+
     public int getCurrentSize(){return size;}
     public boolean isEmpty(){return head == null;}
 

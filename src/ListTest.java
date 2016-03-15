@@ -179,4 +179,20 @@ public class ListTest {
 
         assertEquals(test.getCurrentSize(), 3);
     }
+
+    @org.junit.Test
+    public void sortTest() throws Exception {
+        List<Integer> test = new List<>();
+        test.add(3);
+        test.add(1);
+        test.add(8);
+        test.add(5);
+
+        test.sort();
+
+        assertEquals(test.getEntry(0), new Integer(1));
+        assertEquals(test.getEntry(1), new Integer(3));
+        assertEquals(test.getEntry(2), new Integer(5));
+        assertEquals(test.getEntry(3), new Integer(8));
+    }
 }

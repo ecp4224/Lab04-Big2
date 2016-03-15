@@ -5,38 +5,26 @@ import java.util.LinkedList;
  */
 public class Deck {
 
-    LinkedList<Card> deck;
+    List<Card> deck;
 
     private int cardsUsed;
 
     public Deck() {
-        deck = new LinkedList<>();
-        int cardCount = 0;
-        for(int suit = 0; suit <= 3; suit++) {
-            for(int value = 1; value <= 13; value++) {
-                deck.add(new Card(value,suit));
-                cardCount++;
-            }
-        }
+        deck = Card.createOrderedDeck();
         cardsUsed = 0;
     }
 
     public void shuffle() {
-        for(int i = deck.size(); i > 0; i--) {
-            int rand = (int) (Math.random()*(i+1));
-            Card temp = deck.get(i);
-            deck.add(i,deck.get(rand));
-            deck.add(rand,temp);
-        }
+        deck = Card.createShuffledDeck();
         cardsUsed = 0;
     }
 
     public int cardsLeft() {
-        return deck.size() - cardsUsed;
+        return deck.getCurrentSize() - cardsUsed;
     }
 
     public Card dealCard() {
         cardsUsed++;
-        return deck.get(cardsUsed-1);
+        return deck.getEntry(cardsUsed-1);
     }
 }
