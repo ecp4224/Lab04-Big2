@@ -1,8 +1,9 @@
 
 public class Game {
+
     private Player[] players = new Player[4];
     private Deck theDeck = new Deck();
-    private String whoseTurn;
+    private Player whoseTurn = players[0];
 
 
     public Game() {
@@ -19,17 +20,21 @@ public class Game {
             }
         }
 
-        for(int p = 0; p < 4; p++) {
 
+        //simulates game process, going through turns
+        while(whoseTurn.getHand() != null){
 
-
+            if(whoseTurn.hasJustPlayedCard()){
+                if(whoseTurn.getPosition() == 3){
+                    whoseTurn = players[0];
+                }
+                else{
+                    whoseTurn = players[whoseTurn.getPosition() + 1];
+                }
+            }
 
 
         }
-
-
-
-
 
 
     }
