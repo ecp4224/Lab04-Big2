@@ -1,8 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-
-/**
- * Created by corpa on 3/2/2016.
- */
 public class List<T> implements ListInterface<T>{
 
     private Node<T> head;
@@ -10,8 +9,44 @@ public class List<T> implements ListInterface<T>{
     private int size;
 
     public List(){head = null; size = 0;}
+
+    public List(java.util.List<T> javaList) {
+        for (T item : javaList) {
+            add(item);
+        }
+    }
+
     public int getCurrentSize(){return size;}
     public boolean isEmpty(){return head == null;}
+
+    public void sort() {
+        java.util.List<T> temp = toJavaList();
+        Collections.sort(temp, new Comparator<T>() {
+            @Override
+            public int compare(T o1, T o2) {
+                if (o1 instanceof Comparable)
+                    return ((Comparable) o1).compareTo(o2);
+                else
+                    return 0;
+            }
+        });
+        List<T> temp2 = new List<T>(temp);
+
+        head = temp2.head;
+        last = temp2.last;
+        size = temp2.size;
+    }
+
+    public java.util.List<T> toJavaList() {
+        java.util.List<T> temp = new ArrayList<>();
+        Node<T> current = head;
+        while (current != null) {
+            temp.add(current.getData());
+            current = current.getNext();
+        }
+
+        return temp;
+    }
 
     /**
      *

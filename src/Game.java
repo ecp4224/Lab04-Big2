@@ -4,6 +4,8 @@ public class Game {
     private Deck theDeck = new Deck();
     private String whoseTurn;
 
+    private Card[] currentMiddle = new Card[0];
+
 
     public Game() {
 
@@ -32,5 +34,45 @@ public class Game {
 
 
 
+    }
+
+    private boolean isValidMove(List<Card> toPlay) {
+        if (currentMiddle.length == 0) {
+            if (toPlay.getCurrentSize() == 1)
+                return true;
+            else {
+                return isAllSame(toPlay) || isStream(toPlay);
+            }
+        } else {
+            if (currentMiddle.length == 1 && toPlay.getCurrentSize() != 1)
+                return false;
+            else if (currentMiddle.length == 1 && toPlay.getCurrentSize() == 1) {
+
+            }
+        }
+    }
+
+    private boolean isAllSame(List<Card> cards) {
+        int lastValue = cards.getEntry(0).getBig2Value();
+        for (int i = 1; i < cards.getCurrentSize(); i++) {
+            if (cards.getEntry(i).getBig2Value() != lastValue)
+                return false;
+        }
+
+        return true;
+    }
+
+    private boolean isStream(List<Card> cards) {
+        if (cards.getCurrentSize() < 3)
+            return false;
+
+        int lastValue = cards.getEntry(0).getBig2Value();
+        for (int i = 1; i < cards.getCurrentSize(); i++) {
+            if (cards.getEntry(i).getBig2Value() != lastValue + 1)
+                return false;
+            lastValue = cards.getEntry(i).getBig2Value();
+        }
+
+        return true;
     }
 }
