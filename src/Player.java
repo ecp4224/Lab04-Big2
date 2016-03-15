@@ -5,7 +5,9 @@ public class Player {
 
     private String name;
     private Hand currentHand = new Hand();
-    private boolean isMyTurn = false;
+    private boolean myTurn = false;
+    private boolean justPlayedACard = false;
+    private int position;
 
     public Player(){
 
@@ -13,5 +15,17 @@ public class Player {
 
     public Hand getHand(){
         return currentHand;
+    }
+
+    public Boolean isMyTurn(){
+        return myTurn;
+    }
+
+    public Boolean hasJustPlayedCard(){
+        return justPlayedACard;
+    }
+
+    public int getPosition(){
+        return position;
     }
 }
