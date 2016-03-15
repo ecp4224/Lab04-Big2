@@ -1,8 +1,5 @@
-/**
- * Created by corpa on 3/3/2016.
- */
-public class Game {
 
+public class Game {
     private Player[] players = new Player[4];
     private Deck theDeck = new Deck();
     private String whoseTurn;
@@ -36,5 +33,4 @@ public class Game {
 
 
     }
-
 }

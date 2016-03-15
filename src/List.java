@@ -6,6 +6,7 @@
 public class List<T> implements ListInterface<T>{
 
     private Node<T> head;
+    private Node<T> last;
     private int size;
 
     public List(){head = null; size = 0;}
@@ -33,45 +34,86 @@ public class List<T> implements ListInterface<T>{
     }
 
     public boolean add(T newEntry) {
-        //Saves the old value of head
-        Node<T> temp = head;
-        //Sets head to a clear new node
-        head = new Node<T>();
-        //Sets the head to the newEntry data
-        head.setData(newEntry);
-        //Links the next link from head to the old head value
-        head.setNext(temp);
-        //temp.setPrevious(head);
+        if (size == 0) {
+            Node<T> temp = new Node<T>();
+            temp.setData(newEntry);
+
+            head = temp;
+            last = temp;
+        } else {
+            Node<T> newNode = new Node<T>();
+            newNode.setData(newEntry);
+            newNode.setPrevious(last);
+            last.setNext(newNode);
+            last = newNode;
+        }
         size++;
         return true;
     }
 
     @Override
     public boolean add(int newPosition, T newEntry) {
-        return false;
+        if (newPosition >= size)
+            return false;
+
+        Node<T> current = head;
+        for (int i = 0; i < newPosition; i++) {
+            current = current.getNext();
+        }
+
+        Node<T> newNode = new Node<>();
+        newNode.setData(newEntry);
+
+        newNode.setPrevious(current.getPrevious());
+        newNode.setNext(current);
+
+        if (current.getPrevious() != null) {
+            current.getPrevious().setNext(newNode);
+        }
+        size++;
+        return true;
     }
 
     @Override
     public T remove(int givenPosition) {
-        return null;
-    }
+        if (givenPosition >= size)
+            throw new IndexOutOfBoundsException("Index: " + givenPosition + ", Size: " + size);
 
-    public T remove() {
-        if (head == null){
-            return null;
+        Node<T> current = head;
+        for (int i = 0; i < givenPosition; i++) {
+            current = current.getNext();
         }
-        //Get first data
-        T toReturn = (T) this.head.getData();
 
-        //Set firstNode to firstNode.next
-        this.head = this.head.getNext();
+        Node<T> previous = current.getPrevious();
+        Node<T> next = current.getNext();
 
-        //Set the previous node for the new firstNode to null
-        this.head.setPrevious(null);
+        if (next != null) {
+            //Set the previous node for the next node of the current node to the previous node of the current node
+            //And set the next node for the previous node of the current node to the next node of the current node
+            next.setPrevious(previous);
+        } else { //If the next is null, then we're at the end
+            this.last = previous;
+        }
+
+
+
+        if (previous != null) {
+            previous.setNext(next);
+        } else { //If the previous is null, then we're at the head
+            this.head = next;
+        }
+
+        T toReturn = current.getData();
+
+        current.setNext(null);
+        current.setPrevious(null);
+        current.setData(null);
         size--;
 
         return toReturn;
     }
+
+    @Override
     public boolean remove(T anEntry) {
         boolean removed = false;
 
@@ -86,9 +128,13 @@ public class List<T> implements ListInterface<T>{
                 Node<T> previous = cur.getPrevious();
                 Node<T> next = cur.getNext();
 
-                //Set the previous node for the next node of the current node to the previous node of the current node
-                //And set the next node for the previous node of the current node to the next node of the current node
-                next.setPrevious(previous);
+                if (next != null) {
+                    //Set the previous node for the next node of the current node to the previous node of the current node
+                    //And set the next node for the previous node of the current node to the next node of the current node
+                    next.setPrevious(previous);
+                } else {
+                    this.last = previous;
+                }
 
                 if (previous != null) {
                     previous.setNext(next);
@@ -99,6 +145,7 @@ public class List<T> implements ListInterface<T>{
                 //Set the current's node next and previous to null
                 cur.setNext(null);
                 cur.setPrevious(null);
+                cur.setData(null);
 
                 //We removed a node, so return true, decrease the size and break from this loop
                 removed = true;
@@ -112,48 +159,53 @@ public class List<T> implements ListInterface<T>{
         return removed;
     }
     public void clear() {
-        //While the bag is empty call the remove function
-        while(isEmpty() == false){
-            remove();
-        }
+        this.head = null;
+        this.last = null;
+        size = 0;
     }
 
     @Override
     public boolean replace(int givenPosition, T newEntry) {
-        return false;
+        if (givenPosition >= size)
+            throw new IndexOutOfBoundsException("Index: " + givenPosition + ", Size: " + size);
+
+        Node<T> current = this.head;
+        for (int i = 0; i < givenPosition; i++) {
+            current = current.getNext();
+        }
+
+        current.setData(newEntry);
+
+        return true;
     }
 
     @Override
     public T getEntry(int givenPosition) {
-        return null;
+        if (givenPosition >= size)
+            throw new IndexOutOfBoundsException("Index: " + givenPosition + ", Size: " + size);
+
+        Node<T> current = this.head;
+        for (int i = 0; i < givenPosition; i++) {
+            current = current.getNext();
+        }
+        return current.getData();
     }
 
-    public int getFrequencyOf(T anEntry){
-        //Initialize variable
-        int frequency = 0;
-        Node<T> temp = this.head;
-        //Checks all nodes; When it finds one the same as anEntry increases frequency
-        while (temp != null){
-            if (temp.getData().equals(anEntry)){
-                frequency++;
-            }
-            temp = temp.getNext();
-        }
-        return frequency;
-    }
+    @Override
     public boolean contains(T anEntry) {
         Node<T> cur = this.head;
         while (cur != null) {
             if (cur.getData().equals(anEntry)){
                 return true;
             }
+            cur = cur.getNext();
         }
         return false;
     }
 
     @Override
     public int getLength() {
-        return 0;
+        return size;
     }
 
     @SuppressWarnings("unchecked")

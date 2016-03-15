@@ -1,3 +1,4 @@
+*.iml
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -10,3 +11,32 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+*.class
+*.conf
+
+.idea/*
+out/*
+
+desktop.ini
+*.ini
+*.iml
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.gitignore
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+.idea
+nw
+server/server.json
+
+#Windows crap
+Thumbs.db
+
