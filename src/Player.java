@@ -31,4 +31,8 @@ public abstract class Player {
     public int getScore() {
         return score;
     }
+
+    public void printHand() {
+        currentHand.printHand();
+    }
 }

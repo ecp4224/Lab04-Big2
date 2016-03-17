@@ -71,6 +71,16 @@ public final class Card implements Comparable<Card>, Cloneable {
         this.suit = suit;
     }
 
+    public Card(int value, char suit) {
+        this.value = value;
+        switch (suit){
+            case 'D': this.suit = Suit.DIAMONDS;
+            case 'C': this.suit = Suit.CLUBS;
+            case 'H': this.suit = Suit.HEARTS;
+            case 'S': this.suit = Suit.SPADES;
+        }
+    }
+
     public Card(Card card) {
         this.value = card.getRawValue();
         this.suit = card.getSuit();
@@ -117,13 +127,13 @@ public final class Card implements Comparable<Card>, Cloneable {
      */
     public String getName() {
         if (isAce())
-            return "Ace";
+            return "A";
         if (isKing())
-            return "King";
+            return "K";
         if (isQueen())
-            return "Queen";
+            return "Q";
         if (isJack())
-            return "Jack";
+            return "J";
         else
             return "" + value;
     }
@@ -256,7 +266,7 @@ public final class Card implements Comparable<Card>, Cloneable {
 
         @Override
         public String toString() {
-            return super.name().substring(0, 1) + super.name().substring(1).toLowerCase();
+            return super.name().substring(0, 1);
         }
     }
 }
