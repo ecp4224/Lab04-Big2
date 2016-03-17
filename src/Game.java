@@ -66,7 +66,8 @@ public class Game {
                     break;
                 }
 
-                if (requestMove(cards)) {
+                Result request = requestMove(cards);
+                if (request.didPass()) {
                     System.out.println("Played: ");
                     for (Card c : cards) {
                         System.out.println("    " + c);
@@ -74,10 +75,7 @@ public class Game {
                     currentPlayer.getHand().removeCards(cards);
                     break;
                 } else {
-                    System.out.println("Invalid move attempt:");
-                    for (Card c : cards) {
-                        System.out.println("    " + c);
-                    }
+                    System.out.println(request.getReason());
                 }
             } while (true);
 
@@ -113,45 +111,50 @@ public class Game {
         }
     }
 
-    public boolean requestMove(List<Card> toPlay) {
+    public Result requestMove(List<Card> toPlay) {
         toPlay.sort();
 
-        if (!isValidMove(toPlay))
-            return false;
+        Result result = isValidMove(toPlay);
+        if (!result.didPass())
+            return result;
 
         currentMiddle = toPlay;
-        return true;
+        return result;
     }
 
-    public boolean isValidMove(List<Card> toPlay) {
+    public Result isValidMove(List<Card> toPlay) {
         if (!isAllSame(toPlay) && !isStream(toPlay))
-            return false;
+            return Result.fail("Cannot play this type of pattern!");
 
         if (currentMiddle.getLength() == 0) {
-            return toPlay.getCurrentSize() == 1 || isAllSame(toPlay) || isStream(toPlay);
+            if (toPlay.getCurrentSize() == 1 || isAllSame(toPlay) || isStream(toPlay)) {
+                return Result.success();
+            } else {
+                return Result.fail("Cannot open with this type of pattern!");
+            }
         } else {
             if (currentMiddle.getLength() != toPlay.getCurrentSize()) {
                 if (currentMiddle.getLength() == 1 && currentMiddle.getEntry(0).equals(Card.BIG2)) {
                     if (toPlay.getCurrentSize() == 4 && isAllSame(toPlay)) //4 of a kind beats big 2
-                        return true;
+                        return Result.success();
                 }
-                return false;
+                return Result.fail("Incorrect number of cards, you need to place " + currentMiddle.getLength() + " card" + (currentMiddle.getLength() == 1 ? "" : "s"));
             }
             else if (isAllSame(currentMiddle) && isStream(toPlay))
-                return false;
+                return Result.fail("You need to play pairs, not a stream!");
             else if (isStream(currentMiddle) && isAllSame(toPlay))
-                return false;
+                return Result.fail("You need to play a stream, not pairs!");
             else {
                 //Cards are always sorted from lowest to highest
                 Card highestMiddle = currentMiddle.getEntry(currentMiddle.getLength() - 1);
                 Card highestPlay = toPlay.getEntry(toPlay.getCurrentSize() - 1);
 
                 if (highestMiddle.isHigher(highestPlay))
-                    return false;
+                    return Result.fail("The card in the middle is higher!");
             }
         }
 
-        return true;
+        return Result.success();
     }
 
     public List<Card> getCurrentMiddle() {
