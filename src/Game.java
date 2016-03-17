@@ -163,4 +163,9 @@ public class Game {
             }
         }
     }
+
+    public Card[] getCurrentMiddle() {
+        return currentMiddle;
+    }
+
 }
