@@ -74,10 +74,18 @@ public final class Card implements Comparable<Card>, Cloneable {
     public Card(int value, char suit) {
         this.value = value;
         switch (suit){
-            case 'D': this.suit = Suit.DIAMONDS;
-            case 'C': this.suit = Suit.CLUBS;
-            case 'H': this.suit = Suit.HEARTS;
-            case 'S': this.suit = Suit.SPADES;
+            case 'd':
+                this.suit = Suit.DIAMONDS;
+                break;
+            case 'c':
+                this.suit = Suit.CLUBS;
+                break;
+            case 'h':
+                this.suit = Suit.HEARTS;
+                break;
+            case 's':
+                this.suit = Suit.SPADES;
+                break;
         }
     }
 

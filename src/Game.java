@@ -19,10 +19,10 @@ public class Game {
 
         //deal to all players
         for(int p = 0; p < 4; p++){
-            //if (p == 0)
-//           //     players[p] = new HumanPlayer();
-            //else
-            players[p] = new ComputerPlayer();
+            if (p == 0)
+                players[p] = new HumanPlayer();
+            else
+                players[p] = new ComputerPlayer();
 
             players[p].setPosition(p);
 
@@ -99,6 +99,13 @@ public class Game {
             if (passed.getLength() == 3) {
                 System.out.println();
                 System.out.println("New round!");
+
+                List<Integer> temp = new List<>(Arrays.asList(0, 1, 2, 3));
+                for (Player p : passed) {
+                    temp.remove(new Integer(p.getPosition()));
+                }
+                turn = temp.getEntry(0); //The last number remaining is the current turn
+
                 currentMiddle.clear();
                 passed.clear();
             }
