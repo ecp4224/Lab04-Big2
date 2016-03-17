@@ -4,6 +4,7 @@
 public abstract class Player {
     private Hand currentHand = new Hand();
     private int score;
+    private int position;
 
     public Player(){
         score = 0;
@@ -18,4 +19,12 @@ public abstract class Player {
     }
 
     public abstract List<Card> makeMove(Game game);
+
+    public void setPosition(int num){
+        position = num;
+    }
+
+    public int getPosition(){
+       return position;
+    }
 }

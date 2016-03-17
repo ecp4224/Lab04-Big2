@@ -5,13 +5,18 @@ public class Game {
     private Player[] players = new Player[4];
     private Deck theDeck;
     private Player whoseTurn = players[0];
-
     private Card[] currentMiddle = new Card[0];
 
 
     public Game() {
+
         theDeck = new Deck();
         theDeck.shuffle();
+
+        //set position of each player
+        for(int p = 0; p < 4; p++){
+            players[p].setPosition(p);
+        }
 
         //deal to all players
         for(int p = 0; p < 4; p++){
