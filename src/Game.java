@@ -5,7 +5,7 @@ public class Game {
     private Player[] players = new Player[4];
     private Deck theDeck;
     private Player whoseTurn = players[0];
-    private Card[] currentMiddle = new Card[0];
+    private List<Card> currentMiddle = new List<>();
 
 
     public Game() {
@@ -48,6 +48,11 @@ public class Game {
             do {
                 List<Card> cards = currentPlayer.makeMove(this);
 
+                if (cards == null) {
+                    System.out.println("Passed");
+                    break;
+                }
+
                 if (requestMove(cards)) {
                     currentPlayer.getHand().removeCards(cards);
                     break;
@@ -73,7 +78,7 @@ public class Game {
         if (!isValidMove(toPlay))
             return false;
 
-        currentMiddle = toPlay.toArray();
+        currentMiddle = toPlay;
         return true;
     }
 
@@ -81,10 +86,10 @@ public class Game {
         if (!isAllSame(toPlay) && !isStream(toPlay))
             return false;
 
-        if (currentMiddle.length == 0) {
+        if (currentMiddle.getLength() == 0) {
             return toPlay.getCurrentSize() == 1 || isAllSame(toPlay) || isStream(toPlay);
         } else {
-            if (currentMiddle.length != toPlay.getCurrentSize())
+            if (currentMiddle.getLength() != toPlay.getCurrentSize())
                 return false;
             else if (isAllSame(currentMiddle) && isStream(toPlay))
                 return false;
@@ -92,7 +97,7 @@ public class Game {
                 return false;
             else {
                 //Cards are always sorted from lowest to highest
-                Card highestMiddle = currentMiddle[currentMiddle.length - 1];
+                Card highestMiddle = currentMiddle.getEntry(currentMiddle.getLength() - 1);
                 Card highestPlay = toPlay.getEntry(toPlay.getCurrentSize() - 1);
 
                 if (highestMiddle.isHigher(highestPlay))
@@ -101,6 +106,10 @@ public class Game {
         }
 
         return true;
+    }
+
+    public List<Card> getCurrentMiddle() {
+        return currentMiddle;
     }
 
     private boolean isAllSame(Card[] cards) {

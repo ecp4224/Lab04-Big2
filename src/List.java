@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
-public class List<T> implements ListInterface<T>{
+public class List<T> implements ListInterface<T>, Iterable<T> {
 
-    private Node<T> head;
-    private Node<T> last;
+    private Node head;
+    private Node last;
     private int size;
 
     public List(){head = null; size = 0;}
@@ -45,7 +46,7 @@ public class List<T> implements ListInterface<T>{
 
     public java.util.List<T> toJavaList() {
         java.util.List<T> temp = new ArrayList<>();
-        Node<T> current = head;
+        Node current = head;
         while (current != null) {
             temp.add(current.getData());
             current = current.getNext();
@@ -76,13 +77,13 @@ public class List<T> implements ListInterface<T>{
 
     public boolean add(T newEntry) {
         if (size == 0) {
-            Node<T> temp = new Node<T>();
+            Node temp = new Node();
             temp.setData(newEntry);
 
             head = temp;
             last = temp;
         } else {
-            Node<T> newNode = new Node<T>();
+            Node newNode = new Node();
             newNode.setData(newEntry);
             newNode.setPrevious(last);
             last.setNext(newNode);
@@ -97,12 +98,12 @@ public class List<T> implements ListInterface<T>{
         if (newPosition >= size)
             return false;
 
-        Node<T> current = head;
+        Node current = head;
         for (int i = 0; i < newPosition; i++) {
             current = current.getNext();
         }
 
-        Node<T> newNode = new Node<>();
+        Node newNode = new Node();
         newNode.setData(newEntry);
 
         newNode.setPrevious(current.getPrevious());
@@ -120,13 +121,13 @@ public class List<T> implements ListInterface<T>{
         if (givenPosition >= size)
             throw new IndexOutOfBoundsException("Index: " + givenPosition + ", Size: " + size);
 
-        Node<T> current = head;
+        Node current = head;
         for (int i = 0; i < givenPosition; i++) {
             current = current.getNext();
         }
 
-        Node<T> previous = current.getPrevious();
-        Node<T> next = current.getNext();
+        Node previous = current.getPrevious();
+        Node next = current.getNext();
 
         if (next != null) {
             //Set the previous node for the next node of the current node to the previous node of the current node
@@ -159,15 +160,15 @@ public class List<T> implements ListInterface<T>{
         boolean removed = false;
 
         //Start at the beginning
-        Node<T> cur = this.head;
+        Node cur = this.head;
         //While we have a node to check
         while (cur != null) {
             //If this node's data equals to the parameter
             if (cur.getData().equals(anEntry)) {
 
                 //Get the previous and next node of the current node we're checking
-                Node<T> previous = cur.getPrevious();
-                Node<T> next = cur.getNext();
+                Node previous = cur.getPrevious();
+                Node next = cur.getNext();
 
                 if (next != null) {
                     //Set the previous node for the next node of the current node to the previous node of the current node
@@ -210,7 +211,7 @@ public class List<T> implements ListInterface<T>{
         if (givenPosition >= size)
             throw new IndexOutOfBoundsException("Index: " + givenPosition + ", Size: " + size);
 
-        Node<T> current = this.head;
+        Node current = this.head;
         for (int i = 0; i < givenPosition; i++) {
             current = current.getNext();
         }
@@ -225,7 +226,7 @@ public class List<T> implements ListInterface<T>{
         if (givenPosition >= size)
             throw new IndexOutOfBoundsException("Index: " + givenPosition + ", Size: " + size);
 
-        Node<T> current = this.head;
+        Node current = this.head;
         for (int i = 0; i < givenPosition; i++) {
             current = current.getNext();
         }
@@ -234,7 +235,7 @@ public class List<T> implements ListInterface<T>{
 
     @Override
     public boolean contains(T anEntry) {
-        Node<T> cur = this.head;
+        Node cur = this.head;
         while (cur != null) {
             if (cur.getData().equals(anEntry)){
                 return true;
@@ -253,7 +254,7 @@ public class List<T> implements ListInterface<T>{
     public T[] toArray() {
         T[] array = (T[])new Object[size]; //Create array of the same size as bag
 
-        Node<T> cur = this.head; //Start at first node
+        Node cur = this.head; //Start at first node
         int i = 0;
         while (cur != null) { //If the current node is not null
             array[i] = cur.getData(); //Set the current element to the current node's data
@@ -262,17 +263,55 @@ public class List<T> implements ListInterface<T>{
         }
         return array; //Cast the array to T[] and return
     }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ListIterator();
+    }
+
+    public void addAll(List<T> items) {
+        for (T item : items) {
+            add(item);
+        }
+    }
+
     @SuppressWarnings("hiding")
-    private class Node<T> {
+    private class Node {
         private T data;
-        private Node<T> next;
-        private Node<T> prev;
+        private Node next;
+        private Node prev;
         public Node(){this.data = null;}
         public void setData(T data){this.data = data;}
-        public void setNext(Node<T> next){this.next = next;}
-        public void setPrevious(Node<T> prev){this.prev = prev;}
+        public void setNext(Node next){this.next = next;}
+        public void setPrevious(Node prev){this.prev = prev;}
         public T getData(){return data;}
-        public Node<T> getNext(){return next;}
-        public Node<T> getPrevious(){return prev;}
+        public Node getNext(){return next;}
+        public Node getPrevious(){return prev;}
+    }
+
+    private class ListIterator implements Iterator<T> {
+        private int currentIndex = -1;
+        private boolean removed = false;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < getLength();
+        }
+
+        @Override
+        public T next() {
+            currentIndex++;
+            removed = false;
+            return getEntry(currentIndex);
+        }
+
+        @Override
+        public void remove() {
+            if (removed)
+                throw new UnsupportedOperationException("You cannot call remove() twice!");
+
+            List.this.remove(currentIndex);
+            removed = true;
+        }
     }
 }
