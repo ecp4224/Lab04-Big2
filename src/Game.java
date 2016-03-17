@@ -108,10 +108,6 @@ public class Game {
         return true;
     }
 
-    public List<Card> getCurrentMiddle() {
-        return currentMiddle;
-    }
-
     private boolean isAllSame(Card[] cards) {
         return isAllSame(new List<Card>(cards));
     }
