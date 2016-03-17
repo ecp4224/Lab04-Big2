@@ -27,4 +27,8 @@ public abstract class Player {
     public int getPosition(){
        return position;
     }
+
+    public int getScore() {
+        return score;
+    }
 }

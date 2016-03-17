@@ -4,7 +4,10 @@ public class ComputerPlayer extends Player {
         List<Card> toBeat = game.getCurrentMiddle();
         List<Card> hand = getHand().getHand();
 
-        return drawCard(toBeat, hand, false);
+        toBeat.sort();
+        hand.sort();
+
+        return drawCard(hand, toBeat, false);
     }
     
     public List<Card> drawCard(List<Card> hand, List<Card> toBeat, boolean firstMove) {

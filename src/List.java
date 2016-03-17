@@ -32,7 +32,7 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
             @Override
             public int compare(T o1, T o2) {
                 if (o1 instanceof Comparable)
-                    return ((Comparable) o1).compareTo(o2);
+                    return ((Comparable) o2).compareTo(o1);
                 else
                     return 0;
             }
@@ -295,7 +295,7 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
 
         @Override
         public boolean hasNext() {
-            return currentIndex < getLength();
+            return currentIndex + 1 < getLength();
         }
 
         @Override

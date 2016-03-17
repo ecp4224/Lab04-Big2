@@ -4,7 +4,7 @@
 public class Hand {
 
     private int numOfCards;
-    private List<Card> cards;
+    private List<Card> cards = new List<>();
 
     public Hand() {
 
@@ -29,8 +29,8 @@ public class Hand {
     }
 
     public void printHand(){
-        for(int i = 0; i <= cards.getCurrentSize(); i++){
-            System.out.println(cards.getEntry(i));
+        for(int i = 0; i < cards.getCurrentSize(); i++){
+            System.out.println("    " + cards.getEntry(i));
         }
     }
 

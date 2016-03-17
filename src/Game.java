@@ -2,28 +2,29 @@ import java.util.Arrays;
 
 public class Game {
 
-    private Player[] players = new Player[4];
+    private Player[] players;
     private Deck theDeck;
-    private Player whoseTurn = players[0];
-    private List<Card> currentMiddle = new List<>();
+    private List<Card> currentMiddle;
 
 
     public Game() {
+        setup();
+    }
 
+    private void setup() {
+        players = new Player[4];
+        currentMiddle = new List<>();
         theDeck = new Deck();
         theDeck.shuffle();
 
-        //set position of each player
-        for(int p = 0; p < 4; p++){
-            players[p].setPosition(p);
-        }
-
         //deal to all players
         for(int p = 0; p < 4; p++){
-            if (p == 0)
-                players[p] = new HumanPlayer();
-            else
-                players[p] = new ComputerPlayer();
+            //if (p == 0)
+//           //     players[p] = new HumanPlayer();
+            //else
+            players[p] = new ComputerPlayer();
+
+            players[p].setPosition(p);
 
             for(int i = 0; i < 13; i++){
                 players[p].getHand().addCardToHand(theDeck.dealCard());
@@ -39,36 +40,69 @@ public class Game {
         System.out.println();
     }
 
+    public void reset() {
+        setup();
+    }
+
     public void start() {
         int turn = 0;
+        List<Player> passed = new List<>();
         while (true) { //Continue until someone wins
             Player currentPlayer = players[turn];
 
-            System.out.println("==============Player " + (turn + 1) + "==============");
+            if (passed.contains(currentPlayer)) {
+                turn++;
+                turn = turn % 4;
+                continue;
+            }
+
+            System.out.println("============== Player " + (turn + 1) + " ==============");
             do {
                 List<Card> cards = currentPlayer.makeMove(this);
 
                 if (cards == null) {
                     System.out.println("Passed");
+                    passed.add(currentPlayer);
                     break;
                 }
 
                 if (requestMove(cards)) {
+                    System.out.println("Played: ");
+                    for (Card c : cards) {
+                        System.out.println("    " + c);
+                    }
                     currentPlayer.getHand().removeCards(cards);
                     break;
                 } else {
-                    System.out.println("Invalid move!");
+                    System.out.println("Invalid move attempt:");
+                    for (Card c : cards) {
+                        System.out.println("    " + c);
+                    }
                 }
             } while (true);
 
             if (currentPlayer.getHand().getNumOfCards() == 0) {
+                setScoring(players);
                 System.out.println("Player " + (turn + 1) + " wins!");
+                System.out.println();
+                System.out.println("Scores:");
+                for (Player p : players) {
+                    System.out.println("    Player " + (p.getPosition() + 1) + ": " + p.getScore());
+                }
                 break;
             }
 
             turn++;
             turn = turn % 4;
             System.out.println("============================");
+
+            if (passed.getLength() == 3) {
+                System.out.println();
+                System.out.println("New round!");
+                currentMiddle.clear();
+                passed.clear();
+            }
+            System.out.println();
         }
     }
 
@@ -89,8 +123,13 @@ public class Game {
         if (currentMiddle.getLength() == 0) {
             return toPlay.getCurrentSize() == 1 || isAllSame(toPlay) || isStream(toPlay);
         } else {
-            if (currentMiddle.getLength() != toPlay.getCurrentSize())
+            if (currentMiddle.getLength() != toPlay.getCurrentSize()) {
+                if (currentMiddle.getLength() == 1 && currentMiddle.getEntry(0).equals(Card.BIG2)) {
+                    if (toPlay.getCurrentSize() == 4 && isAllSame(toPlay)) //4 of a kind beats big 2
+                        return true;
+                }
                 return false;
+            }
             else if (isAllSame(currentMiddle) && isStream(toPlay))
                 return false;
             else if (isStream(currentMiddle) && isAllSame(toPlay))
