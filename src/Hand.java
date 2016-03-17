@@ -34,4 +34,10 @@ public class Hand {
         }
     }
 
+    public void removeCards(List<Card> cards) {
+        for (int i = 0; i < cards.getLength(); i++) {
+            Card c = cards.getEntry(i);
+            removeCardFromHand(c);
+        }
+    }
 }

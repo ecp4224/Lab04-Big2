@@ -45,7 +45,16 @@ public class Game {
             Player currentPlayer = players[turn];
 
             System.out.println("==============Player " + (turn + 1) + "==============");
-            currentPlayer.makeMove(this);
+            do {
+                List<Card> cards = currentPlayer.makeMove(this);
+
+                if (requestMove(cards)) {
+                    currentPlayer.getHand().removeCards(cards);
+                    break;
+                } else {
+                    System.out.println("Invalid move!");
+                }
+            } while (true);
 
             if (currentPlayer.getHand().getNumOfCards() == 0) {
                 System.out.println("Player " + (turn + 1) + " wins!");
