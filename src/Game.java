@@ -15,29 +15,41 @@ public class Game {
 
         //deal to all players
         for(int p = 0; p < 4; p++){
-            players[p] = new Player();
+            if (p == 0)
+                players[p] = new HumanPlayer();
+            else
+                players[p] = new ComputerPlayer();
+
             for(int i = 0; i < 13; i++){
                 players[p].getHand().addCardToHand(theDeck.dealCard());
             }
         }
 
         //print hands of players
-        for(Player p : players){
-            System.out.println("Player " + (p.getPosition()+1) + " card's: ");
+        for(int i = 0; i < 4; i++) {
+            Player p = players[i];
+            System.out.println("Player " + (i+1) + " card's: ");
             p.getHand().printHand();
         }
         System.out.println();
+    }
 
-        //simulates game process, going through turns
-        while(whoseTurn.getHand() != null){
-            if(whoseTurn.hasJustPlayedCard()){
-                if(whoseTurn.getPosition() == 3){
-                    whoseTurn = players[0];
-                }
-                else{
-                    whoseTurn = players[whoseTurn.getPosition() + 1];
-                }
+    public void start() {
+        int turn = 0;
+        while (true) { //Continue until someone wins
+            Player currentPlayer = players[turn];
+
+            System.out.println("==============Player " + (turn + 1) + "==============");
+            currentPlayer.makeMove(this);
+
+            if (currentPlayer.getHand().getNumOfCards() == 0) {
+                System.out.println("Player " + (turn + 1) + " wins!");
+                break;
             }
+
+            turn++;
+            turn = turn % 4;
+            System.out.println("============================");
         }
     }
 

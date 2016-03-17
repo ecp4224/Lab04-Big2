@@ -17,5 +17,5 @@ public abstract class Player {
         this.score = score;
     }
 
-    public abstract List<Card> makeMove();
+    public abstract List<Card> makeMove(Game game);
 }

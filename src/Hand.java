@@ -20,6 +20,7 @@ public class Hand {
     }
 
     public boolean removeCardFromHand(Card cardToBeRemoved){
+        numOfCards--;
         return cards.remove(cardToBeRemoved);
     }
 

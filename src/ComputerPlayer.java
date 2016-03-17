@@ -1,7 +1,7 @@
-public class HumanPlayer extends Player {
+public class ComputerPlayer extends Player {
     @Override
     public List<Card> makeMove(Game game) {
-        //TODO Scanner stuff
+        //TODO AI
         return null;
     }
 }
