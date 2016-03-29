@@ -1,3 +1,13 @@
+/**
+ * Class: COMP 2071
+ * Assignment: Lab 4
+ * Due Date:
+ * Group #: 21
+ * Group Members:   Andrew Corp
+ *                  Eddie Penta
+ *                  Jacob Ollila
+ */
+
 public class ComputerPlayer extends Player {
     @Override
     public List<Card> makeMove(Game game) {

@@ -1,3 +1,13 @@
+/**
+ * Class: COMP 2071
+ * Assignment: Lab 4
+ * Due Date: 3/17/16
+ * Group #: 21
+ * Group Members:   Andrew Corp
+ *                  Eddie Penta
+ *                  Jacob Ollila
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,23 +19,44 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
     private Node last;
     private int size;
 
+    /**
+     * Creates list with size 0
+     */
     public List(){head = null; size = 0;}
 
+    /**
+     * Creates list given a java list
+     * @param javaList java.util.List
+     */
     public List(java.util.List<T> javaList) {
         for (T item : javaList) {
             add(item);
         }
     }
 
+    /**
+     * Creates list with array of objects
+     * @param items array
+     */
     public List(T[] items) {
         for (T item : items) {
             add(item);
         }
     }
 
+    /**
+     * @return size of List
+     */
     public int getCurrentSize(){return size;}
+
+    /**
+     * @return true if list is empty
+     */
     public boolean isEmpty(){return head == null;}
 
+    /**
+     * Sorts the List by comparing the objects
+     */
     public void sort() {
         java.util.List<T> temp = toJavaList();
         Collections.sort(temp, new Comparator<T>() {
@@ -44,6 +75,9 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         size = temp2.size;
     }
 
+    /**
+     * @return java.util.List of all items in the list
+     */
     public java.util.List<T> toJavaList() {
         java.util.List<T> temp = new ArrayList<>();
         Node current = head;
@@ -75,6 +109,10 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         System.out.println("}");
     }
 
+    /**
+     * @param newEntry  the object to be added as a new entry
+     * @return true if the newEntry was added
+     */
     public boolean add(T newEntry) {
         if (size == 0) {
             Node temp = new Node();
@@ -93,6 +131,13 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         return true;
     }
 
+    /**
+     *
+     * @param newPosition  an integer that specifies the desired
+     *                      position of the new entry
+     * @param newEntry     the object to be added as a new entry
+     * @return true if the newEntry was added
+     */
     @Override
     public boolean add(int newPosition, T newEntry) {
         if (newPosition >= size)
@@ -116,6 +161,12 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         return true;
     }
 
+    /**
+     * Removes the object at the given position from the list
+     * @param givenPosition  an integer that indicates the position of
+     *                        the entry to be removed
+     * @return the object that was removed from the list
+     */
     @Override
     public T remove(int givenPosition) {
         if (givenPosition >= size)
@@ -155,6 +206,11 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         return toReturn;
     }
 
+    /**
+     * Removes the givenEntry in the list
+     * @param anEntry
+     * @return true if the object was removed from the list
+     */
     @Override
     public boolean remove(T anEntry) {
         boolean removed = false;
@@ -200,12 +256,24 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         }
         return removed;
     }
+
+    /**
+     * Empties the list and sets size to zero
+     */
     public void clear() {
         this.head = null;
         this.last = null;
         size = 0;
     }
 
+    /**
+     *  Replaces the object in the list at givenPosition with the newEntry
+     * @param givenPosition  an integer that indicates the position of the
+     *                        entry to be replaced
+     * @param newEntry  the object that will replace the entry at the
+     *                   position givenPosition
+     * @return true if it was replaced
+     */
     @Override
     public boolean replace(int givenPosition, T newEntry) {
         if (givenPosition >= size)
@@ -221,6 +289,11 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         return true;
     }
 
+    /**
+     * @param givenPosition  an integer that indicates the position of
+     *                        the desired entry
+     * @return entry at givenPosition
+     */
     @Override
     public T getEntry(int givenPosition) {
         if (givenPosition >= size)
@@ -233,6 +306,10 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         return current.getData();
     }
 
+    /**
+     * @param anEntry  the object that is the desired entry
+     * @return true if the list has anEntry inside of it
+     */
     @Override
     public boolean contains(T anEntry) {
         Node cur = this.head;
@@ -245,11 +322,17 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         return false;
     }
 
+    /**
+     * @return the size
+     */
     @Override
     public int getLength() {
         return size;
     }
 
+    /**
+     * @return array data structure of the List
+     */
     @SuppressWarnings("unchecked")
     public T[] toArray() {
         T[] array = (T[])new Object[size]; //Create array of the same size as bag
@@ -264,17 +347,27 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         return array; //Cast the array to T[] and return
     }
 
+    /**
+     * @return iterator of the list
+     */
     @Override
     public Iterator<T> iterator() {
         return new ListIterator();
     }
 
+    /**
+     * Add the items to the list given a list of items to add
+     * @param items
+     */
     public void addAll(List<T> items) {
         for (T item : items) {
             add(item);
         }
     }
 
+    /**
+     * Node Class
+     */
     @SuppressWarnings("hiding")
     private class Node {
         private T data;
@@ -293,11 +386,17 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
         private int currentIndex = -1;
         private boolean removed = false;
 
+        /**
+         * @return true if there is another object
+         */
         @Override
         public boolean hasNext() {
             return currentIndex + 1 < getLength();
         }
 
+        /**
+         * @return the object of the next
+         */
         @Override
         public T next() {
             currentIndex++;
@@ -305,6 +404,9 @@ public class List<T> implements ListInterface<T>, Iterable<T> {
             return getEntry(currentIndex);
         }
 
+        /**
+         * removes the object
+         */
         @Override
         public void remove() {
             if (removed)

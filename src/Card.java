@@ -1,3 +1,13 @@
+/**
+ * Class: COMP 2071
+ * Assignment: Lab 4
+ * Due Date:
+ * Group #: 21
+ * Group Members:   Andrew Corp
+ *                  Eddie Penta
+ *                  Jacob Ollila
+ */
+
 import java.util.Random;
 
 public final class Card implements Comparable<Card>, Cloneable {

@@ -1,6 +1,13 @@
 /**
- * Created by ollilaj on 3/15/2016.
+ * Class: COMP 2071
+ * Assignment: Lab 4
+ * Due Date: 3/17/16
+ * Group #: 21
+ * Group Members:   Andrew Corp
+ *                  Eddie Penta
+ *                  Jacob Ollila
  */
+
 public abstract class Player {
     private Hand currentHand = new Hand();
     private int score;

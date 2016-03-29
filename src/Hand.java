@@ -1,6 +1,13 @@
 /**
- * Created by corpa on 3/3/2016.
+ * Class: COMP 2071
+ * Assignment: Lab 4
+ * Due Date: 3/17/16
+ * Group #: 21
+ * Group Members:   Andrew Corp
+ *                  Eddie Penta
+ *                  Jacob Ollila
  */
+
 public class Hand {
 
     private int numOfCards;
